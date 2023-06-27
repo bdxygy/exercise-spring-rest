@@ -25,13 +25,17 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleEntity findById(Long id) {
-        final Optional<RoleEntity> role = roleRepository.findById(id);
+//        final Optional<RoleEntity> role = roleRepository.findById(id);
+//        if (role.isEmpty()) {
+//            throw new RuntimeException("Role with ID "+ id.toString() +" Not Found!");
+//        }
+//        return role.get();
 
-        if (role.isEmpty()) {
-            throw new RuntimeException("Role with ID "+ id.toString() +" Not Found!");
-        }
-
-        return role.get();
+        return roleRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException("Role with ID " + id.toString() + " Not Found!")
+                );
     }
 
     @Override
@@ -59,5 +63,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteAll() {
         roleRepository.deleteAll();
+    }
+
+    @Override
+    public List<RoleEntity> findAllById(List<Long> listRolesId) {
+        return roleRepository.findAllById(listRolesId);
     }
 }

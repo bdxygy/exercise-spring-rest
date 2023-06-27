@@ -1,5 +1,7 @@
 package io.budisantoso.dev.learnspringsecurity.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,6 +31,11 @@ public class RoleEntity {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @JsonIgnoreProperties("roles")
+
+    @ManyToMany(mappedBy = "roles")
+    private List<UserEntity> users;
 
     public RoleEntity(String name) {
         this.name = name;
