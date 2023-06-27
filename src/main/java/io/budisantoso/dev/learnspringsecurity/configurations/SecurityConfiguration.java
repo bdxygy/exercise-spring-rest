@@ -33,7 +33,7 @@ public class SecurityConfiguration {
 
         httpSecurity
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/v1/p/").permitAll();
+                    auth.requestMatchers("v1/auth/**", "/v1/auth/**").permitAll();
                     auth.anyRequest()
                             .authenticated();
                 });
