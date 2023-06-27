@@ -5,25 +5,29 @@ import io.budisantoso.dev.learnspringsecurity.entities.RoleEntity;
 import io.budisantoso.dev.learnspringsecurity.entities.UserEntity;
 import io.budisantoso.dev.learnspringsecurity.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
 
     final private UserRepository userRepository;
     final private RoleService roleService;
+    final private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository ur, RoleService roleService) {
+    public UserServiceImpl(UserRepository ur, RoleService roleService, PasswordEncoder passwordEncoder) {
         userRepository = ur;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserEntity create(UserDTO newData) {
-        return userRepository.save(new UserEntity(newData.getName(), newData.getEmail(), newData.getPassword()));
+        return userRepository.save(new UserEntity(newData.getName(), newData.getEmail(), passwordEncoder.encode(newData.getPassword())));
     }
 
     @Override

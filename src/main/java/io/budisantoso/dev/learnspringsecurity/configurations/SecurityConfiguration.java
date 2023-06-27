@@ -4,6 +4,7 @@ import io.budisantoso.dev.learnspringsecurity.middlewares.JwtAuthenticationFilte
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,7 +34,8 @@ public class SecurityConfiguration {
 
         httpSecurity
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("v1/auth/**", "/v1/auth/**").permitAll();
+                    auth.requestMatchers("/v1/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET,"/v1/users","/v1/users/**").permitAll();
                     auth.anyRequest()
                             .authenticated();
                 });
