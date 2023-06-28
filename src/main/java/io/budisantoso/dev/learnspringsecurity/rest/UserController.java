@@ -8,6 +8,7 @@ import io.budisantoso.dev.learnspringsecurity.utils.Null;
 import io.budisantoso.dev.learnspringsecurity.utils.UniversalResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,8 +59,8 @@ public class UserController implements UniversalController<UserDTO, UserEntity, 
     }
 
     @Override
-    public ResponseEntity<UniversalResponse<Null>> delete(Long aLong) {
-        userService.delete(aLong);
+    public ResponseEntity<UniversalResponse<Null>> delete(Long id) {
+        userService.delete(id);
         UniversalResponse<Null> response = new UniversalResponse<>(HttpStatus.ACCEPTED.value(), "Delete user success");
 
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);

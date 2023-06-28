@@ -32,9 +32,8 @@ public class RoleEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @JsonIgnoreProperties("roles")
-
-    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private List<UserEntity> users;
 
     public RoleEntity(String name) {

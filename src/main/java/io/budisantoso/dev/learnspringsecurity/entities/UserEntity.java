@@ -1,5 +1,6 @@
 package io.budisantoso.dev.learnspringsecurity.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -42,8 +44,8 @@ public class UserEntity implements UserDetails {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @JsonIgnoreProperties("users")
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleEntity> roles;
 
@@ -55,7 +57,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
+//
         Collection<SimpleGrantedAuthority> userRoles = new ArrayList<>();
         for (RoleEntity role : roles) {
             userRoles.add(new SimpleGrantedAuthority(role.getName()));
@@ -63,6 +65,7 @@ public class UserEntity implements UserDetails {
 
         return userRoles;
     }
+
 
     @Override
     public String getUsername() {

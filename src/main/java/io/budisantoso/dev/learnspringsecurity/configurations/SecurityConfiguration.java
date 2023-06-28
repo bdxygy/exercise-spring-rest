@@ -34,8 +34,12 @@ public class SecurityConfiguration {
 
         httpSecurity
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/v1/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/v1/auth/**").permitAll();
+                    auth.requestMatchers("/v1/auth/me").authenticated();
                     auth.requestMatchers(HttpMethod.GET,"/v1/users","/v1/users/**").permitAll();
+                    auth.requestMatchers("/v1/host/user").hasAnyRole("USER", "ADMIN", "DEV");
+                    auth.requestMatchers("/v1/host/admin").hasAnyRole("ADMIN", "DEV");
+                    auth.requestMatchers("/v1/host/dev").hasRole("DEV");
                     auth.anyRequest()
                             .authenticated();
                 });

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface UserService extends UniversalService<UserDTO, UserEntity, Long> {
     UserEntity addRole(Long userId, List<Long> listRoleId);
+    UserEntity findByEmail(String email);
 }
